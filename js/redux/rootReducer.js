@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
+import users from './modules/users'
+
 export default combineReducers({
-  counter: function (state, action) {
-      return {};
-  }
+  users
 })

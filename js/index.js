@@ -4,14 +4,14 @@ import { Provider } from 'react-redux'
 import DevTools from './redux/DevTools'
 import configureStore from './redux/configureStore'
 
-import App from './App';
+import AppLayout from './views/AppLayout';
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <App />
+      <AppLayout />
       <DevTools />
     </div>
   </Provider>,
