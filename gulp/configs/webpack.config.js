@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack-stream').webpack;
+const config = require('./main.config');
 
 module.exports = {
   devtool: 'cheap-module-inline-source-map',
@@ -13,5 +14,10 @@ module.exports = {
       include: path.join(__dirname, '../../js'),
       exclude: /node_modules/
     }]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      '__DEBUG__': true
+    })
+  ]
 };
