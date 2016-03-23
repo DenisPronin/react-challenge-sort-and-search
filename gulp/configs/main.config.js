@@ -12,5 +12,5 @@ module.exports = {
     css: 'css',
     images: 'images'
   },
-  production: false
+  production: process.env.NODE_ENV === 'production'
 };

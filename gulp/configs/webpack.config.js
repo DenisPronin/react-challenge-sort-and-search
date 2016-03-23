@@ -17,7 +17,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      '__DEBUG__': true
+      '__DEBUG__': !config.production
     })
   ]
 };

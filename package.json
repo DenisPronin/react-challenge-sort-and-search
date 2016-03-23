@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate-data": "node utils/generate-data.js"
+    "generate-data": "node utils/generate-data.js",
+    "prod": "set NODE_ENV=production&&gulp"
   },
   "keywords": [],
   "author": "",
