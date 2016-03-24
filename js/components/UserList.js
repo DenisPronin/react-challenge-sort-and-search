@@ -12,7 +12,8 @@ export default class UserList extends React.Component {
 
   render() {
     let userState = this.props.userState;
-    let field = userState.get('filterUsers').size > 0 ? 'filterUsers' : 'users';
+    let searchTerm = userState.get('searchTerm');
+    let field = searchTerm ? 'filterUsers' : 'users';
     let users = userState.get(field).toArray();
 
     return (

@@ -33,7 +33,7 @@ export function getUsers() {
       .then(users => {
         dispatch(getUsersFullfilled(users));
         if (users.entities.size > 0) {
-          dispatch(setActiveUser(users.entities.get(0).id));
+          dispatch(setActiveUser(users.entities.first().id));
         }
       })
   };
@@ -59,6 +59,7 @@ export const actions = {
 export const initialState = fromJS({
   users: {},
   filterUsers: {},
+  searchTerm: '',
   activeUserId: null,
   isGetPending: false,
   errorMessage: ''
@@ -86,7 +87,11 @@ export default function users(state = initialState, action) {
       let filterUsers = state.get('users').filter(user => {
         return user.name.toLowerCase().indexOf(action.term.toLowerCase()) > -1;
       });
-      return state.set('filterUsers', filterUsers);
+      let activeUserId = filterUsers.first() ? filterUsers.first().id : null;
+      return state
+        .set('filterUsers', filterUsers)
+        .set('searchTerm', action.term)
+        .set('activeUserId', activeUserId);
 
     default:
       return state;
