@@ -3,6 +3,8 @@ import connectWrapper from '../redux/utils/connect'
 import actions from '../redux/rootActions'
 import { Row, Col } from 'react-bootstrap'
 
+import Searchbar from '../components/SearchBar'
+import Toolbar from '../components/ToolBar'
 import UserContainer from '../components/UserContainer'
 
 export class AppLayout extends React.Component {
@@ -18,13 +20,13 @@ export class AppLayout extends React.Component {
       <div className="app container-fluid">
         <Row>
           <Col sm={12}>
-            searcBar
+            <Searchbar />
           </Col>
         </Row>
 
         <Row>
           <Col sm={12}>
-            toolbar
+            <Toolbar />
           </Col>
         </Row>
 
