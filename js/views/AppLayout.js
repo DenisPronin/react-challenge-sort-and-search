@@ -3,6 +3,8 @@ import connectWrapper from '../redux/utils/connect'
 import actions from '../redux/rootActions'
 import { Row, Col } from 'react-bootstrap'
 
+import UserList from '../components/UserList'
+
 export class AppLayout extends React.Component {
   static propTypes = {
     state: PropTypes.object.isRequired,
@@ -14,6 +16,8 @@ export class AppLayout extends React.Component {
   }
 
   render () {
+    let state = this.props.state;
+
     return (
       <div className="app container-fluid">
         <Row>
@@ -33,7 +37,7 @@ export class AppLayout extends React.Component {
             active card
           </Col>
           <Col sm={9} md={9} lg={10}>
-            userlist
+            <UserList userState={state.users} />
           </Col>
         </Row>
       </div>

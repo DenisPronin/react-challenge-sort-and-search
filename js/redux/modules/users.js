@@ -4,6 +4,7 @@
 // sort by name
 // sort by age
 import { fromJS } from 'immutable';
+import UserApi from '../../api/usersApi'
 
 /*
  * Constants
@@ -28,9 +29,12 @@ export function getUsersFullfilled(users) {
 export function getUsers() {
   return dispatch => {
     dispatch(getUsersPending());
-    setTimeout(() => {
-      dispatch(getUsersFullfilled([1,2,3]));
-    })
+    UserApi.getUsers()
+      .then(users => {
+        users = parseUsers(users);
+        dispatch(getUsersFullfilled(users));
+      });
+
   };
 }
 
@@ -42,7 +46,8 @@ export const actions = {
  * State
  * */
 export const initialState = fromJS({
-  users: [],
+  userIds: [],
+  users: {},
   isGetPending: false,
   errorMessage: ''
 });
@@ -60,9 +65,23 @@ export default function users(state = initialState, action) {
     case `${GET_USERS}_FULFILLED`:
       return state
         .set('isGetPending', false)
-        .set('users', action.users);
+        .set('userIds', action.users.ids)
+        .set('users', action.users.entities);
 
     default:
       return state;
   }
 }
+
+/*
+* Normalize
+* */
+export const parseUsers = function (users) {
+  let ids = [];
+  let entities = {};
+  users.forEach(user => {
+    ids.push(user.id.toString());
+    entities[user.id] = user;
+  });
+  return {ids, entities};
+};
