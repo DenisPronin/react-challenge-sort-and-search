@@ -12,6 +12,8 @@ export default class UserList extends React.Component {
 
   render() {
     let userState = this.props.userState;
+    let field = userState.get('filterUsers').size > 0 ? 'filterUsers' : 'users';
+    let users = userState.get(field).toArray();
 
     return (
       <Table className="user-list" striped hover>
@@ -25,10 +27,9 @@ export default class UserList extends React.Component {
         </thead>
         <tbody>
         {
-          userState.get('userIds').map(userId => {
-            let user = userState.get('users')[userId];
+          users.map(user => {
             return (
-              <UserListItem key={`user-row-${userId}`}
+              <UserListItem key={`user-row-${user.id}`}
                             user={user}
                             onSetActiveUser={this.props.onSetActiveUser}
               />

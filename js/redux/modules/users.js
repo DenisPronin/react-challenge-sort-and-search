@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 import UserApi from '../../api/usersApi'
 
 /*
@@ -32,8 +32,8 @@ export function getUsers() {
       })
       .then(users => {
         dispatch(getUsersFullfilled(users));
-        if (users.ids.length > 0) {
-          dispatch(setActiveUser(users.entities[0].id));
+        if (users.entities.size > 0) {
+          dispatch(setActiveUser(users.entities.get(0).id));
         }
       })
   };
@@ -57,8 +57,8 @@ export const actions = {
  * State
  * */
 export const initialState = fromJS({
-  userIds: [],
   users: {},
+  filterUsers: {},
   activeUserId: null,
   isGetPending: false,
   errorMessage: ''
@@ -77,14 +77,16 @@ export default function users(state = initialState, action) {
     case `${GET_USERS}_FULFILLED`:
       return state
         .set('isGetPending', false)
-        .set('userIds', action.users.ids)
         .set('users', action.users.entities);
 
     case SET_ACTIVE_USER:
       return state.set('activeUserId', action.userId);
 
     case SEARCH_USER_BY_NAME:
-      return state;
+      let filterUsers = state.get('users').filter(user => {
+        return user.name.toLowerCase().indexOf(action.term.toLowerCase()) > -1;
+      });
+      return state.set('filterUsers', filterUsers);
 
     default:
       return state;
@@ -95,11 +97,9 @@ export default function users(state = initialState, action) {
 * Normalize
 * */
 export const parseUsers = function (users) {
-  let ids = [];
-  let entities = {};
+  let entities = new Map();
   users.forEach(user => {
-    ids.push(user.id.toString());
-    entities[user.id] = user;
+    entities = entities.set(user.id, user);
   });
-  return {ids, entities};
+  return {entities};
 };

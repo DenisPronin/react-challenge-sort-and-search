@@ -22,7 +22,7 @@ export default class UserContainer extends React.Component {
   render() {
     let userState = this.props.userState;
     let activeUserId = userState.get('activeUserId');
-    let activeUser = userState.get('users')[activeUserId];
+    let activeUser = userState.getIn(['users', activeUserId]);
     let isGetPending = userState.get('isGetPending');
 
     return (
