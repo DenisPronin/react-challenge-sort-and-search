@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Table } from 'react-bootstrap'
 
+import Spinner from './Spinner'
 import UserListItem from './UserListItem'
 
 export default class UserList extends React.Component {
@@ -16,7 +17,7 @@ export default class UserList extends React.Component {
       <div>
         {
           userState.get('isGetPending') &&
-          <div>loading...</div>
+          <Spinner />
         }
         {
           !userState.get('isGetPending') &&
