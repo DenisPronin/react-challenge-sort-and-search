@@ -1,9 +1,4 @@
-// get users
-// set active use
-// search user
-// sort by name
-// sort by age
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import UserApi from '../../api/usersApi'
 
 /*
@@ -11,6 +6,7 @@ import UserApi from '../../api/usersApi'
  * */
 export const GET_USERS = 'GET_USERS';
 export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
+export const SEARCH_USER_BY_NAME = 'SEARCH_USER_BY_NAME';
 
 /*
  * Actions
@@ -47,9 +43,14 @@ export function setActiveUser(userId) {
   return {type: SET_ACTIVE_USER, userId}
 }
 
+export function searchUserByName(term) {
+  return {type: SEARCH_USER_BY_NAME, term}
+}
+
 export const actions = {
   getUsers,
-  setActiveUser
+  setActiveUser,
+  searchUserByName
 };
 
 /*
@@ -81,6 +82,9 @@ export default function users(state = initialState, action) {
 
     case SET_ACTIVE_USER:
       return state.set('activeUserId', action.userId);
+
+    case SEARCH_USER_BY_NAME:
+      return state;
 
     default:
       return state;

@@ -13,6 +13,10 @@ export class AppLayout extends React.Component {
     actions: PropTypes.object.isRequired
   };
 
+  searchUser(event) {
+    this.props.actions.searchUserByName(event.target.value);
+  }
+
   render () {
     let state = this.props.state;
 
@@ -20,7 +24,7 @@ export class AppLayout extends React.Component {
       <div className="app container-fluid">
         <Row>
           <Col sm={12}>
-            <Searchbar />
+            <Searchbar onSearch={this.searchUser.bind(this)} />
           </Col>
         </Row>
 
