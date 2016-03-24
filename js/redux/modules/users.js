@@ -10,6 +10,7 @@ import UserApi from '../../api/usersApi'
  * Constants
  * */
 export const GET_USERS = 'GET_USERS';
+export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
 
 /*
  * Actions
@@ -31,15 +32,24 @@ export function getUsers() {
     dispatch(getUsersPending());
     UserApi.getUsers()
       .then(users => {
-        users = parseUsers(users);
+        return parseUsers(users);
+      })
+      .then(users => {
         dispatch(getUsersFullfilled(users));
-      });
-
+        if (users.ids.length > 0) {
+          dispatch(setActiveUser(users.entities[0].id));
+        }
+      })
   };
 }
 
+export function setActiveUser(userId) {
+  return {type: SET_ACTIVE_USER, userId}
+}
+
 export const actions = {
-  getUsers
+  getUsers,
+  setActiveUser
 };
 
 /*
@@ -48,6 +58,7 @@ export const actions = {
 export const initialState = fromJS({
   userIds: [],
   users: {},
+  activeUserId: null,
   isGetPending: false,
   errorMessage: ''
 });
@@ -67,6 +78,9 @@ export default function users(state = initialState, action) {
         .set('isGetPending', false)
         .set('userIds', action.users.ids)
         .set('users', action.users.entities);
+
+    case SET_ACTIVE_USER:
+      return state.set('activeUserId', action.userId);
 
     default:
       return state;

@@ -3,17 +3,13 @@ import connectWrapper from '../redux/utils/connect'
 import actions from '../redux/rootActions'
 import { Row, Col } from 'react-bootstrap'
 
-import UserList from '../components/UserList'
+import UserContainer from '../components/UserContainer'
 
 export class AppLayout extends React.Component {
   static propTypes = {
     state: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   };
-
-  componentWillMount() {
-    this.props.actions.getUsers();
-  }
 
   render () {
     let state = this.props.state;
@@ -32,14 +28,9 @@ export class AppLayout extends React.Component {
           </Col>
         </Row>
 
-        <Row>
-          <Col sm={4} md={3} lg={2}>
-            active card
-          </Col>
-          <Col sm={9} md={9} lg={10}>
-            <UserList userState={state.users} />
-          </Col>
-        </Row>
+        <UserContainer userState={state.users}
+                       actions={this.props.actions}
+        />
       </div>
     )
   }
