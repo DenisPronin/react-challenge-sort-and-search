@@ -50,14 +50,30 @@ export function searchUserByName(term) {
   return {type: SEARCH_USER_BY_NAME, term}
 }
 
+export function searchUserAndActivate(term) {
+  return dispatch => {
+    dispatch(searchUserByName(term));
+    dispatch(setActiveUser());
+  }
+}
+
 export function orderBy(field, orderType) {
   return {type: ORDER_BY, payload: {field, orderType}}
+}
+
+export function orderAndActivate(field, orderType) {
+  return dispatch => {
+    dispatch(orderBy(field, orderType));
+    dispatch(setActiveUser());
+  }
 }
 
 export const actions = {
   getUsers,
   setActiveUser,
   searchUserByName,
+  searchUserAndActivate,
+  orderAndActivate,
   orderBy
 };
 
@@ -93,7 +109,12 @@ export default function users(state = initialState, action) {
         .set('users', action.users.entities);
 
     case SET_ACTIVE_USER:
-      return state.set('activeUserId', action.userId);
+      let id = action.userId;
+      if (!id) {
+        let collectionField = state.get('searchTerm') ? 'filterUsers' : 'users';
+        id = state.get(collectionField).first().id;
+      }
+      return state.set('activeUserId', id);
 
     case SEARCH_USER_BY_NAME:
       let filterUsers = state.get('users').filter(user => {
@@ -102,8 +123,7 @@ export default function users(state = initialState, action) {
       let activeUserId = filterUsers.first() ? filterUsers.first().id : null;
       return state
         .set('filterUsers', filterUsers)
-        .set('searchTerm', action.term)
-        .set('activeUserId', activeUserId);
+        .set('searchTerm', action.term);
 
     case ORDER_BY:
       let orderField = action.payload.field;

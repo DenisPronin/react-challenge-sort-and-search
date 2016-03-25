@@ -18,7 +18,7 @@ export default class ToolBar extends React.Component {
 
   order(field) {
     let orderType = this.getOrderTypeByField(field);
-    this.props.actions.orderBy(field, orderType);
+    this.props.actions.orderAndActivate(field, orderType);
   }
 
   render () {
