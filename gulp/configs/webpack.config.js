@@ -8,6 +8,11 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
+    preLoaders: [{
+      test: /\.js$/,
+      loader: 'eslint',
+      exclude: /node_modules/
+    }],
     loaders: [{
       test: /\.js$/,
       loaders: ['react-hot', 'babel-loader'],
@@ -22,5 +27,10 @@ module.exports = {
       },
       '__DEBUG__': config.env !== 'production'
     })
-  ]
+  ],
+  'eslint': {
+    configFile: path.join(__dirname, '../../.eslintrc'),
+    failOnWarning: false,
+    failOnError: false
+  }
 };
