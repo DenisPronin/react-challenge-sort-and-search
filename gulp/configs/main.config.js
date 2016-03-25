@@ -1,6 +1,7 @@
 module.exports = {
   paths: {
     sass: './sass/main.scss',
+    sass_src: './sass/**/*.scss',
     entry: './js/index.js',
     js: './js/**/*.js',
     html: './*.html',
