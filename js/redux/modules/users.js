@@ -1,4 +1,4 @@
-import { fromJS, List, Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import UserApi from '../../api/usersApi'
 
 /*
@@ -120,7 +120,6 @@ export default function users(state = initialState, action) {
       let filterUsers = state.get('users').filter(user => {
         return user.name.toLowerCase().indexOf(action.term.toLowerCase()) > -1;
       });
-      let activeUserId = filterUsers.first() ? filterUsers.first().id : null;
       return state
         .set('filterUsers', filterUsers)
         .set('searchTerm', action.term);

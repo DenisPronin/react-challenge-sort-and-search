@@ -1,4 +1,4 @@
-import { actions as userActions} from './modules/users'
+import { actions as userActions } from './modules/users'
 
 export default Object.assign(
   userActions
