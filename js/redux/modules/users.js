@@ -35,9 +35,7 @@ export function getUsers() {
       })
       .then(users => {
         dispatch(getUsersFullfilled(users));
-        if (users.entities.size > 0) {
-          dispatch(setActiveUser(users.entities.first().id));
-        }
+        dispatch(setActiveUser());
       })
   };
 }

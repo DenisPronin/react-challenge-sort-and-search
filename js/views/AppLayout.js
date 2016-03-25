@@ -14,7 +14,7 @@ export class AppLayout extends React.Component {
   };
 
   searchUser(event) {
-    this.props.actions.searchUserAndActivate(event.target.value);
+    this.props.actions.searchUserAndActivate(event.target.value.trim());
   }
 
   render () {
