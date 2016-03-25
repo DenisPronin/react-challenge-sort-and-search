@@ -30,7 +30,9 @@ export class AppLayout extends React.Component {
 
         <Row>
           <Col sm={12}>
-            <Toolbar />
+            <Toolbar orderState={state.users.get('orderBy')}
+                     actions={this.props.actions}
+            />
           </Col>
         </Row>
 

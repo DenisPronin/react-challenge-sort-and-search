@@ -7,6 +7,9 @@ import UserApi from '../../api/usersApi'
 export const GET_USERS = 'GET_USERS';
 export const SET_ACTIVE_USER = 'SET_ACTIVE_USER';
 export const SEARCH_USER_BY_NAME = 'SEARCH_USER_BY_NAME';
+export const ORDER_BY = 'ORDER_BY';
+export const ASC = 'ASC';
+export const DESC = 'DESC';
 
 /*
  * Actions
@@ -47,10 +50,15 @@ export function searchUserByName(term) {
   return {type: SEARCH_USER_BY_NAME, term}
 }
 
+export function orderBy(field, orderType) {
+  return {type: ORDER_BY, payload: {field, orderType}}
+}
+
 export const actions = {
   getUsers,
   setActiveUser,
-  searchUserByName
+  searchUserByName,
+  orderBy
 };
 
 /*
@@ -61,6 +69,10 @@ export const initialState = fromJS({
   filterUsers: {},
   searchTerm: '',
   activeUserId: null,
+  orderBy: {
+    name: DESC,
+    age: DESC
+  },
   isGetPending: false,
   errorMessage: ''
 });
@@ -93,14 +105,22 @@ export default function users(state = initialState, action) {
         .set('searchTerm', action.term)
         .set('activeUserId', activeUserId);
 
+    case ORDER_BY:
+      let field = action.payload.field;
+      let orderType = action.payload.orderType;
+      let users = state.get('users').sortBy(user => user[field]);
+      if (orderType === DESC) {
+        users = users.reverse();
+      }
+      return state
+        .set('users', users)
+        .setIn(['orderBy', field], orderType);
+
     default:
       return state;
   }
 }
 
-/*
-* Normalize
-* */
 export const parseUsers = function (users) {
   let entities = new Map();
   users.forEach(user => {
