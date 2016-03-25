@@ -12,7 +12,10 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <AppLayout />
-      <DevTools />
+      {
+        __DEBUG__ &&
+        <DevTools />
+      }
     </div>
   </Provider>,
   document.getElementById('root')

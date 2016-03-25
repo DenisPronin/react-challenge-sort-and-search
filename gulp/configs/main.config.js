@@ -1,6 +1,6 @@
 module.exports = {
   paths: {
-    sass: './sass/**/*.scss',
+    sass: './sass/main.scss',
     entry: './js/index.js',
     js: './js/**/*.js',
     html: './*.html',
@@ -12,5 +12,5 @@ module.exports = {
     css: 'css',
     images: 'images'
   },
-  production: process.env.NODE_ENV === 'production'
+  env: process.env.NODE_ENV
 };

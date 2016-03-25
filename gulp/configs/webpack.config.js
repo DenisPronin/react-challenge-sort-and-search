@@ -17,7 +17,10 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      '__DEBUG__': !config.production
+      'process.env'  : {
+        'NODE_ENV' : JSON.stringify(config.env)
+      },
+      '__DEBUG__': config.env !== 'production'
     })
   ]
 };
