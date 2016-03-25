@@ -106,15 +106,17 @@ export default function users(state = initialState, action) {
         .set('activeUserId', activeUserId);
 
     case ORDER_BY:
-      let field = action.payload.field;
+      let orderField = action.payload.field;
       let orderType = action.payload.orderType;
-      let users = state.get('users').sortBy(user => user[field]);
+      let collectionField = state.get('searchTerm') ? 'filterUsers' : 'users';
+
+      let users = state.get(collectionField).sortBy(user => user[orderField]);
       if (orderType === DESC) {
         users = users.reverse();
       }
       return state
-        .set('users', users)
-        .setIn(['orderBy', field], orderType);
+        .set(collectionField, users)
+        .setIn(['orderBy', orderField], orderType);
 
     default:
       return state;
